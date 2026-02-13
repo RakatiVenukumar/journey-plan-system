@@ -1,59 +1,93 @@
 import React, { useState, useEffect } from "react";
 
-export default function Dashboard() {
+export default function Dashboard({ onLogout }) {
 
   const [routeName, setRouteName] = useState("");
   const [routeCode, setRouteCode] = useState("");
   const [validFrom, setValidFrom] = useState("");
+  const [validTo, setValidTo] = useState("");
+  const [assignedUser, setAssignedUser] = useState("");
 
   const [storeName, setStoreName] = useState("");
   const [storeCode, setStoreCode] = useState("");
+  const [storeAddress, setStoreAddress] = useState("");
 
   const [stores, setStores] = useState([]);
 
+  const [summary, setSummary] = useState({
+    total: 0,
+    pending: 0,
+    visited: 0,
+    missed: 0
+  });
+
+
   useEffect(() => {
 
-    const savedJP = localStorage.getItem("journeyPlan");
+    calculateSummary();
 
-    if (savedJP) {
+  }, [stores]);
 
-      const parsed = JSON.parse(savedJP);
 
-      setStores(parsed.customers || []);
+  const calculateSummary = () => {
 
-    }
+    const total = stores.length;
 
-  }, []);
+    const pending =
+      stores.filter(
+        s => s.status === "Pending"
+      ).length;
+
+    const visited =
+      stores.filter(
+        s => s.status === "Visited"
+      ).length;
+
+    const missed =
+      stores.filter(
+        s => s.status === "Missed"
+      ).length;
+
+    setSummary({
+      total,
+      pending,
+      visited,
+      missed
+    });
+
+  };
+
 
   const addStore = () => {
 
-    const name = storeName.trim();
-    const code = storeCode.trim();
-
-    if (!name || !code)
-      return alert("Enter store name and code");
+    if (!storeName || !storeCode || !storeAddress)
+      return alert("Fill all fields");
 
     if (
       stores.some(
-        s =>
-          s.code.toLowerCase() ===
-          code.toLowerCase()
+        s => s.code === storeCode
       )
     )
-      return alert("Duplicate store code");
+      return alert("Duplicate store");
 
-    if (stores.length >= 10)
-      return alert("Maximum 10 stores allowed");
+    const newStore = {
+      name: storeName,
+      code: storeCode,
+      address: storeAddress,
+      status: "Pending"
+    };
 
     setStores([
       ...stores,
-      { name, code }
+      newStore
     ]);
 
     setStoreName("");
     setStoreCode("");
+    setStoreAddress("");
 
   };
+
 
   const removeStore = code => {
 
@@ -65,205 +99,289 @@ export default function Dashboard() {
 
   };
 
+
   const saveJourneyPlan = () => {
 
     if (
-      !routeName.trim() ||
-      !routeCode.trim() ||
-      !validFrom
+      !routeName ||
+      !routeCode ||
+      !validFrom ||
+      !validTo ||
+      !assignedUser
     )
-      return alert(
-        "Fill route information"
-      );
+      return alert("Fill all route info");
 
     if (stores.length === 0)
-      return alert(
-        "Add at least one store"
-      );
+      return alert("Add stores");
 
-    const jp = {
+    const newPlan = {
+
       routeName,
       routeCode,
       validFrom,
+      validTo,
+      assignedUser,
       customers: stores
+
     };
 
+    let existing =
+      localStorage.getItem(
+        "journeyPlans"
+      );
+
+    existing =
+      existing
+        ? JSON.parse(existing)
+        : [];
+
+    existing.push(newPlan);
+
     localStorage.setItem(
-      "journeyPlan",
-      JSON.stringify(jp)
+      "journeyPlans",
+      JSON.stringify(existing)
     );
 
-    alert(
-      "Journey Plan Created Successfully"
-    );
+    alert("Journey Plan Saved");
 
   };
+
 
   return (
 
     <div style={styles.page}>
 
-      {/* Header */}
+
+      {/* HEADER */}
+
       <div style={styles.header}>
 
         <h2>
-          Journey Plan Management
+          Admin Dashboard
         </h2>
 
-        <p style={styles.subtitle}>
-          Create and assign daily store visits
-        </p>
+        <button
+          style={styles.logout}
+          onClick={onLogout}
+        >
+          Logout
+        </button>
 
       </div>
 
-      {/* Route Card */}
-      <div style={styles.card}>
 
-        <h3 style={styles.cardTitle}>
-          Route Information
-        </h3>
 
-        <div style={styles.grid}>
+      {/* SUMMARY */}
 
-          <input
-            style={styles.input}
-            placeholder="Route Name"
-            value={routeName}
-            onChange={e =>
-              setRouteName(
-                e.target.value
-              )
-            }
-          />
+      <div style={styles.summaryGrid}>
 
-          <input
-            style={styles.input}
-            placeholder="Route Code"
-            value={routeCode}
-            onChange={e =>
-              setRouteCode(
-                e.target.value
-              )
-            }
-          />
+        <div style={styles.card}>
+          Total Stores
+          <h3>{summary.total}</h3>
+        </div>
 
-          <input
-            type="date"
-            style={styles.input}
-            value={validFrom}
-            onChange={e =>
-              setValidFrom(
-                e.target.value
-              )
-            }
-          />
+        <div style={styles.card}>
+          Pending
+          <h3>{summary.pending}</h3>
+        </div>
 
+        <div style={styles.card}>
+          Visited
+          <h3>{summary.visited}</h3>
+        </div>
+
+        <div style={styles.card}>
+          Missed
+          <h3>{summary.missed}</h3>
         </div>
 
       </div>
 
-      {/* Store Card */}
-      <div style={styles.card}>
 
-        <h3 style={styles.cardTitle}>
-          Stores ({stores.length}/10)
-        </h3>
 
-        <div style={styles.grid}>
+      {/* ROUTE INFO */}
 
-          <input
-            style={styles.input}
-            placeholder="Store Name"
-            value={storeName}
-            onChange={e =>
-              setStoreName(
-                e.target.value
-              )
-            }
-          />
+      <div style={styles.cardBox}>
 
-          <input
-            style={styles.input}
-            placeholder="Store Code"
-            value={storeCode}
-            onChange={e =>
-              setStoreCode(
-                e.target.value
-              )
-            }
-          />
+        <h3>Route Info</h3>
 
-        </div>
+        <input
+          placeholder="Route Name"
+          style={styles.input}
+          value={routeName}
+          onChange={e =>
+            setRouteName(
+              e.target.value
+            )
+          }
+        />
+
+        <input
+          placeholder="Route Code"
+          style={styles.input}
+          value={routeCode}
+          onChange={e =>
+            setRouteCode(
+              e.target.value
+            )
+          }
+        />
+
+        <input
+          type="date"
+          style={styles.input}
+          value={validFrom}
+          onChange={e =>
+            setValidFrom(
+              e.target.value
+            )
+          }
+        />
+
+        <input
+          type="date"
+          style={styles.input}
+          value={validTo}
+          onChange={e =>
+            setValidTo(
+              e.target.value
+            )
+          }
+        />
+
+        <select
+          style={styles.input}
+          value={assignedUser}
+          onChange={e =>
+            setAssignedUser(
+              e.target.value
+            )
+          }
+        >
+
+          <option value="">
+            Assign User
+          </option>
+
+          <option>
+            vansales01
+          </option>
+
+          <option>
+            vansales02
+          </option>
+
+          <option>
+            vansales03
+          </option>
+
+          <option>
+            vansales04
+          </option>
+
+        </select>
+
+      </div>
+
+
+
+      {/* STORE ADD */}
+
+      <div style={styles.cardBox}>
+
+        <h3>Add Store</h3>
+
+        <input
+          placeholder="Store Name"
+          style={styles.input}
+          value={storeName}
+          onChange={e =>
+            setStoreName(
+              e.target.value
+            )
+          }
+        />
+
+        <input
+          placeholder="Store Code"
+          style={styles.input}
+          value={storeCode}
+          onChange={e =>
+            setStoreCode(
+              e.target.value
+            )
+          }
+        />
+
+        <input
+          placeholder="Address"
+          style={styles.input}
+          value={storeAddress}
+          onChange={e =>
+            setStoreAddress(
+              e.target.value
+            )
+          }
+        />
 
         <button
-          style={styles.primaryButton}
+          style={styles.add}
           onClick={addStore}
         >
           Add Store
         </button>
 
-        {/* Store List */}
+      </div>
 
-        <div style={styles.list}>
 
-          {
 
-            stores.length === 0 ?
+      {/* STORE LIST */}
 
-            <p style={styles.empty}>
-              No stores added
-            </p>
+      <div style={styles.cardBox}>
 
-            :
+        <h3>Store List</h3>
 
-            stores.map(store => (
+        {
 
-              <div
-                key={store.code}
-                style={styles.listItem}
+          stores.map(store => (
+
+            <div
+              key={store.code}
+              style={styles.storeRow}
+            >
+
+              {store.name}
+
+              <button
+                style={styles.remove}
+                onClick={() =>
+                  removeStore(
+                    store.code
+                  )
+                }
               >
+                Remove
+              </button>
 
-                <div>
+            </div>
 
-                  <strong>
-                    {store.name}
-                  </strong>
+          ))
 
-                  <div style={styles.code}>
-                    {store.code}
-                  </div>
-
-                </div>
-
-                <button
-                  style={styles.remove}
-                  onClick={() =>
-                    removeStore(
-                      store.code
-                    )
-                  }
-                >
-                  Remove
-                </button>
-
-              </div>
-
-            ))
-
-          }
-
-        </div>
+        }
 
       </div>
 
-      {/* Save */}
+
+
+      {/* SAVE */}
 
       <button
-        style={styles.saveButton}
+        style={styles.save}
         onClick={saveJourneyPlan}
       >
         Save Journey Plan
       </button>
+
 
     </div>
 
@@ -271,94 +389,77 @@ export default function Dashboard() {
 
 }
 
+
+
 const styles = {
 
-  page: {
-    padding: "40px",
-    background: "#f1f5f9",
-    minHeight: "100vh"
+  page:{
+    padding:"30px",
+    background:"#f1f5f9",
+    minHeight:"100vh"
   },
 
-  header: {
-    marginBottom: "20px"
+  header:{
+    display:"flex",
+    justifyContent:"space-between",
+    marginBottom:"20px"
   },
 
-  subtitle: {
-    color: "#64748b"
+  logout:{
+    background:"red",
+    color:"#fff",
+    padding:"10px"
   },
 
-  card: {
-    background: "#fff",
-    padding: "20px",
-    borderRadius: "10px",
-    marginBottom: "20px",
-    boxShadow:
-      "0 5px 15px rgba(0,0,0,0.05)"
+  summaryGrid:{
+    display:"grid",
+    gridTemplateColumns:"repeat(4,1fr)",
+    gap:"10px",
+    marginBottom:"20px"
   },
 
-  cardTitle: {
-    marginBottom: "15px"
+  card:{
+    background:"#fff",
+    padding:"20px",
+    borderRadius:"10px"
   },
 
-  grid: {
-    display: "grid",
-    gridTemplateColumns:
-      "1fr 1fr",
-    gap: "10px"
+  cardBox:{
+    background:"#fff",
+    padding:"20px",
+    marginBottom:"20px",
+    borderRadius:"10px"
   },
 
-  input: {
-    padding: "10px",
-    borderRadius: "6px",
-    border: "1px solid #cbd5e1"
+  input:{
+    display:"block",
+    marginBottom:"10px",
+    padding:"10px",
+    width:"100%"
   },
 
-  primaryButton: {
-    marginTop: "10px",
-    background: "#2563eb",
-    color: "#fff",
-    padding: "10px",
-    border: "none",
-    borderRadius: "6px"
+  add:{
+    background:"blue",
+    color:"#fff",
+    padding:"10px"
   },
 
-  saveButton: {
-    width: "100%",
-    padding: "14px",
-    background: "#16a34a",
-    color: "#fff",
-    border: "none",
-    borderRadius: "8px",
-    fontWeight: "bold"
+  save:{
+    background:"green",
+    color:"#fff",
+    padding:"15px",
+    width:"100%"
   },
 
-  list: {
-    marginTop: "15px"
+  storeRow:{
+    display:"flex",
+    justifyContent:"space-between",
+    padding:"10px"
   },
 
-  listItem: {
-    display: "flex",
-    justifyContent: "space-between",
-    padding: "12px",
-    borderBottom:
-      "1px solid #e2e8f0"
-  },
-
-  remove: {
-    background: "#dc2626",
-    color: "#fff",
-    border: "none",
-    padding: "6px 12px",
-    borderRadius: "6px"
-  },
-
-  code: {
-    fontSize: "12px",
-    color: "#64748b"
-  },
-
-  empty: {
-    color: "#64748b"
+  remove:{
+    background:"red",
+    color:"#fff"
   }
 
 };
