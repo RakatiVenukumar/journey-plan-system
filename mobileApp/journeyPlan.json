@@ -1,0 +1,264 @@
+[
+  {
+    "routeName": "Hyderabad Central Route",
+    "routeCode": "HYD001",
+    "assignedUser": "vansales01",
+    "validFrom": "2026-02-13",
+    "validTo": "2026-02-15",
+    "customers": [
+
+      {
+        "name": "Raja Variety",
+        "code": "WBD00022793",
+        "address": "Kukatpally, Hyderabad",
+        "sector": "A Zone",
+        "town": "Hyderabad",
+        "category": "Retailers",
+        "contact": "8017518929",
+        "status": "Pending"
+      },
+      {
+        "name": "Dutta Variety",
+        "code": "WBD00022794",
+        "address": "Miyapur, Hyderabad",
+        "sector": "A Zone",
+        "town": "Hyderabad",
+        "category": "Retailers",
+        "contact": "8017518930",
+        "status": "Pending"
+      },
+
+      {
+        "name": "Puja Electronics",
+        "code": "WBD00022795",
+        "address": "Hitech City, Hyderabad",
+        "sector": "A Zone",
+        "town": "Hyderabad",
+        "category": "Retailers",
+        "contact": "8017518931",
+        "status": "Visited"
+      },
+      {
+        "name": "Bhola Variety",
+        "code": "WBD00022796",
+        "address": "Gachibowli, Hyderabad",
+        "sector": "A Zone",
+        "town": "Hyderabad",
+        "category": "Retailers",
+        "contact": "8017518932",
+        "status": "Visited"
+      },
+
+      {
+        "name": "Metro Traders",
+        "code": "WBD00022797",
+        "address": "Ameerpet, Hyderabad",
+        "sector": "A Zone",
+        "town": "Hyderabad",
+        "category": "Retailers",
+        "contact": "8017518933",
+        "status": "Missed"
+      },
+      {
+        "name": "Fresh Mart",
+        "code": "WBD00022798",
+        "address": "Banjara Hills, Hyderabad",
+        "sector": "A Zone",
+        "town": "Hyderabad",
+        "category": "Retailers",
+        "contact": "8017518934",
+        "status": "Missed"
+      }
+
+    ]
+  },
+
+
+  {
+    "routeName": "Hyderabad West Route",
+    "routeCode": "HYD002",
+    "assignedUser": "vansales02",
+    "validFrom": "2026-02-13",
+    "validTo": "2026-02-15",
+    "customers": [
+
+      {
+        "name": "Super Retail",
+        "code": "WBD00022801",
+        "address": "Jubilee Hills, Hyderabad",
+        "sector": "B Zone",
+        "town": "Hyderabad",
+        "category": "Retailers",
+        "contact": "8017518941",
+        "status": "Pending"
+      },
+      {
+        "name": "City Stores",
+        "code": "WBD00022802",
+        "address": "Madhapur, Hyderabad",
+        "sector": "B Zone",
+        "town": "Hyderabad",
+        "category": "Retailers",
+        "contact": "8017518942",
+        "status": "Pending"
+      },
+
+      {
+        "name": "Daily Needs",
+        "code": "WBD00022803",
+        "address": "Kondapur, Hyderabad",
+        "sector": "B Zone",
+        "town": "Hyderabad",
+        "category": "Retailers",
+        "contact": "8017518943",
+        "status": "Visited"
+      },
+      {
+        "name": "New India Stores",
+        "code": "WBD00022804",
+        "address": "Begumpet, Hyderabad",
+        "sector": "B Zone",
+        "town": "Hyderabad",
+        "category": "Retailers",
+        "contact": "8017518944",
+        "status": "Visited"
+      },
+
+      {
+        "name": "Smart Mart",
+        "code": "WBD00022805",
+        "address": "Somajiguda, Hyderabad",
+        "sector": "B Zone",
+        "town": "Hyderabad",
+        "category": "Retailers",
+        "contact": "8017518945",
+        "status": "Missed"
+      },
+      {
+        "name": "Green Stores",
+        "code": "WBD00022806",
+        "address": "Punjagutta, Hyderabad",
+        "sector": "B Zone",
+        "town": "Hyderabad",
+        "category": "Retailers",
+        "contact": "8017518946",
+        "status": "Missed"
+      }
+
+    ]
+  },
+
+
+  {
+    "routeName": "Hyderabad East Route",
+    "routeCode": "HYD003",
+    "assignedUser": "vansales03",
+    "validFrom": "2026-02-13",
+    "validTo": "2026-02-15",
+    "customers": [
+
+      {
+        "name": "Sai Traders",
+        "code": "WBD00022807",
+        "address": "Uppal, Hyderabad",
+        "status": "Pending",
+        "contact": "8017518951"
+      },
+      {
+        "name": "Krishna Stores",
+        "code": "WBD00022808",
+        "address": "LB Nagar, Hyderabad",
+        "status": "Pending",
+        "contact": "8017518952"
+      },
+
+      {
+        "name": "Lakshmi Mart",
+        "code": "WBD00022809",
+        "address": "Nagole, Hyderabad",
+        "status": "Visited",
+        "contact": "8017518953"
+      },
+      {
+        "name": "Balaji Traders",
+        "code": "WBD00022810",
+        "address": "Dilsukhnagar, Hyderabad",
+        "status": "Visited",
+        "contact": "8017518954"
+      },
+
+      {
+        "name": "Om Stores",
+        "code": "WBD00022811",
+        "address": "Kothapet, Hyderabad",
+        "status": "Missed",
+        "contact": "8017518955"
+      },
+      {
+        "name": "Reddy Mart",
+        "code": "WBD00022812",
+        "address": "Chaitanyapuri, Hyderabad",
+        "status": "Missed",
+        "contact": "8017518956"
+      }
+
+    ]
+  },
+
+
+  {
+    "routeName": "Hyderabad North Route",
+    "routeCode": "HYD004",
+    "assignedUser": "vansales04",
+    "validFrom": "2026-02-13",
+    "validTo": "2026-02-15",
+    "customers": [
+
+      {
+        "name": "Alpha Stores",
+        "code": "WBD00022813",
+        "address": "Secunderabad",
+        "status": "Pending",
+        "contact": "8017518961"
+      },
+      {
+        "name": "Beta Traders",
+        "code": "WBD00022814",
+        "address": "Malkajgiri",
+        "status": "Pending",
+        "contact": "8017518962"
+      },
+
+      {
+        "name": "Gamma Mart",
+        "code": "WBD00022815",
+        "address": "Alwal",
+        "status": "Visited",
+        "contact": "8017518963"
+      },
+      {
+        "name": "Delta Stores",
+        "code": "WBD00022816",
+        "address": "Trimulgherry",
+        "status": "Visited",
+        "contact": "8017518964"
+      },
+
+      {
+        "name": "Epsilon Retail",
+        "code": "WBD00022817",
+        "address": "Bolarum",
+        "status": "Missed",
+        "contact": "8017518965"
+      },
+      {
+        "name": "Zeta Traders",
+        "code": "WBD00022818",
+        "address": "Kompally",
+        "status": "Missed",
+        "contact": "8017518966"
+      }
+
+    ]
+  }
+]
